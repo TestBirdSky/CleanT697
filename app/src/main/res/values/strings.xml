@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MobPhone376</string>
+    <string name="app_name">Clean Care</string>
     <!-- 文件清理相关字符串 -->
     <string name="delete">Delete</string>
     <string name="delete_with_count">Delete (%d)</string>
