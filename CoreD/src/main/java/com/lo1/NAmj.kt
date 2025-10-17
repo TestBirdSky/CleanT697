@@ -1,11 +1,12 @@
-package b2
+package com.lo1
 
-import ad.ToponAdImpl
+import ad.TopAdImp
 import android.app.Activity
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ak.impI.Core
+import com.facebook.impI.Start
+import opm.z.cd
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -15,11 +16,11 @@ import kotlin.random.Random
  * Date：2025/7/16
  * Describe:
  */
-class AdCenter {
-    private val mPAH = PangleAdImpl()// 高价值
-    private val mPangleAdImpl = PangleAdImpl("1") // 低价值
-    private val mToponAdH = ToponAdImpl("")
-    private val mToponAdL = ToponAdImpl("1")
+class NAmj {
+    private val mPAH = PAdImpls()// 高价值
+    private val mPAdImpls = PAdImpls("1") // 低价值
+    private val mToponAdH = TopAdImp("")
+    private val mToponAdL = TopAdImp("1")
 
     private var idH = ""
     private var idL = ""
@@ -39,21 +40,21 @@ class AdCenter {
             mToponAdL.lAd(idL)
         } else {
             mPAH.lAd(idH)
-            mPangleAdImpl.lAd(idL)
+            mPAdImpls.lAd(idL)
         }
     }
 
     private var job: Job? = null
     fun sa(ac: Activity) {
-        AdE.sNumJump(0)
+        AdMzki.sNumJump(0)
         if (ac is AppCompatActivity) {
             ac.onBackPressedDispatcher.addCallback {}
             job?.cancel()
             job = ac.lifecycleScope.launch {
-                Core.pE("ad_done")
-                delay(Random.nextLong(AdE.gDTime()))
-                if (AdE.isLoadH) {
-                    opm.z.cd.b(ac)
+                Start.pE("ad_done")
+                delay(Random.nextLong(AdMzki.gDTime()))
+                if (AdMzki.isLoadH) {
+                    cd.b(ac)
                 }
                 var isS = false
                 if (isTopon) {
@@ -64,7 +65,7 @@ class AdCenter {
                 } else {
                     isS = mPAH.shAd(ac)
                     if (isS.not()) {
-                        isS = mPangleAdImpl.shAd(ac)
+                        isS = mPAdImpls.shAd(ac)
                     }
                 }
                 if (isS.not()) {

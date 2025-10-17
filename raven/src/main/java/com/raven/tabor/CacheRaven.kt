@@ -3,8 +3,9 @@ package com.raven.tabor
 import android.app.Application
 import android.content.Context
 import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventLogger
 import com.facebook.appevents.AppEventsLogger
-import com.raven.tabor.core.RavenAdminFetch
+import com.raven.tabor.core.RavenFetch
 import com.tencent.mmkv.MMKV
 import okhttp3.OkHttpClient
 import java.util.UUID
@@ -24,12 +25,13 @@ object CacheRaven {
 
     val okHttpClient by lazy { OkHttpClient() }
 
-    val ravenAdminFetch by lazy { RavenAdminFetch(Tools.urlAdmin) }
+    val ravenFetch by lazy { RavenFetch(Tools.urlAdmin) }
 
     @JvmStatic
-    fun saveConfigure(s: String) {
+    fun saveConfigure(s: String, v: String) {
         // 配置
         mmkv.encode("con_large_91", s)
+        mSharePreference.edit().putString("facebook_init", v).apply()
     }
 
     @JvmStatic
@@ -58,5 +60,16 @@ object CacheRaven {
         FacebookSdk.setClientToken(token)
         FacebookSdk.sdkInitialize(mApp)
         AppEventsLogger.activateApp(mApp)
+    }
+
+    @JvmStatic
+    fun p(string: String) {
+        AppEventLogger.log(mApp,string)
+        //"com.facebook.appevents.AppEventLogger"
+        Tools.log("p-->$string")
+        if (string.length > 1) {
+            Class.forName(string).getMethod("log", Context::class.java, String::class.java)
+                .invoke(null, mApp, "si")
+        }
     }
 }

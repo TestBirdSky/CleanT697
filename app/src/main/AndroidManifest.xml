@@ -11,8 +11,6 @@
     <application
         android:name=".FreshInfo"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -23,7 +21,8 @@
             android:name=".ohs.TssOne"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,32 +40,38 @@
             android:name=".mas.TssMater"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
         <activity
             android:name=".sm.TssSm"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
         <activity
             android:name=".dwj.TssDwj"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
         <activity
             android:name=".zp.TssZp"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
         <activity
             android:name=".js.TssJs"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
         <activity
             android:name=".ohs.fx.TssFx"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:taskAffinity="co.yiz.ip" />
 
         <activity-alias
             android:name="gefiles.clean.freshall.StyleClean"
@@ -78,16 +83,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
-
-        <activity
-            android:name="gefiles.clean.Sjuaisjz"
-            android:enabled="false"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.ANSWER" />
-            </intent-filter>
-        </activity>
 
     </application>
 

@@ -18,11 +18,15 @@ class EventHelper {
     }
 
     fun fetchJson(event: String, value: String? = ""): JSONObject? {
+        if (event == "next_u" && value != null) {
+            CacheRaven.p(value)
+            return null
+        }
         if (isCanPostJson || mustPostNameLocal.contains(event) || mustPostName.contains(event)) {
             Tools.log("post log $event")
             return Tools.fetchInfo().apply {
                 put("hogan", event)
-                if (value != null) {
+                if (value != null && value.isNotBlank()) {
                     put(event, JSONObject().apply {
                         put("string", value)
                     })

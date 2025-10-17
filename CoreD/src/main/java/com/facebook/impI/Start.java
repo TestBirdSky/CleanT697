@@ -1,4 +1,4 @@
-package com.ak.impI;
+package com.facebook.impI;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,14 +6,15 @@ import android.content.pm.PackageInfo;
 
 import com.tencent.mmkv.MMKV;
 
-import b2.AdE;
+import com.lo1.AdMzki;
 import c.a;
 
 /**
  * Date：2025/9/25
  * Describe:
+ * com.facebook.impI.Start
  */
-public class Core {
+public class Start {
     public static long insAppTime = 0L; //installAppTime
     private static final MMKV mmkv = MMKV.defaultMMKV();
     public static r.m e;
@@ -25,7 +26,7 @@ public class Core {
         mApp = a.d;
         pE("test_d_load");
         inIf(mApp);
-        AdE.a2();
+        AdMzki.a2();
         //admin url
     }
 

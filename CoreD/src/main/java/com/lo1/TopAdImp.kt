@@ -1,8 +1,8 @@
 package ad
 
 import android.app.Activity
-import b2.AdE
-import com.ak.impI.Core
+import com.lo1.AdMzki
+import com.facebook.impI.Start
 import com.appsflyer.AFAdRevenueData
 import com.appsflyer.AdRevenueScheme
 import com.appsflyer.AppsFlyerLib
@@ -26,7 +26,7 @@ import kotlin.text.isBlank
  * Date：2025/10/13
  * Describe:
  */
-class ToponAdImpl(val tag: String) : TUInterstitialListener {
+class TopAdImp(val tag: String) : TUInterstitialListener {
 
     private var isLoading = false
     private var lT = 0L
@@ -39,8 +39,8 @@ class ToponAdImpl(val tag: String) : TUInterstitialListener {
         if (isReadyAd()) return
         isLoading = true
         lT = System.currentTimeMillis()
-        Core.pE("advertise_req$tag")
-        mAd = TUInterstitial(Core.mApp, id)
+        Start.pE("advertise_req$tag")
+        mAd = TUInterstitial(Start.mApp, id)
         mAd?.setAdListener(this)
         mAd?.load()
     }
@@ -58,13 +58,13 @@ class ToponAdImpl(val tag: String) : TUInterstitialListener {
         if (ad?.isAdReady == true) {
             call = {
                 a.finishAndRemoveTask()
-                AdE.isSAd = false
+                AdMzki.isSAd = false
             }
             time = System.currentTimeMillis()
             job?.cancel()
             job = CoroutineScope(Dispatchers.IO).launch {
                 delay(10000)
-                Core.pE("advertise_show", "10")
+                Start.pE("advertise_show", "10")
                 a.finishAndRemoveTask()
             }
             ad.show(a)
@@ -76,23 +76,23 @@ class ToponAdImpl(val tag: String) : TUInterstitialListener {
 
     override fun onInterstitialAdLoaded() {
         isLoading = false
-        Core.pE("advertise_get$tag")
+        Start.pE("advertise_get$tag")
     }
 
     override fun onInterstitialAdLoadFail(p0: AdError?) {
         isLoading = false
-        Core.pE("advertise_fail$tag", "${p0?.code}")
+        Start.pE("advertise_fail$tag", "${p0?.code}")
     }
 
     override fun onInterstitialAdClicked(p0: TUAdInfo?) {}
 
     override fun onInterstitialAdShow(p0: TUAdInfo?) {
-        Core.pE("advertise_show", "${(System.currentTimeMillis() - time) / 1000}")
+        Start.pE("advertise_show", "${(System.currentTimeMillis() - time) / 1000}")
         job?.cancel()
         p0?.let {
             postP(it)
         }
-        AdE.mAdC.loadAd()
+        AdMzki.mAdC.loadAd()
     }
 
     override fun onInterstitialAdClose(p0: TUAdInfo?) {
@@ -105,14 +105,14 @@ class ToponAdImpl(val tag: String) : TUInterstitialListener {
     override fun onInterstitialAdVideoEnd(p0: TUAdInfo?) {}
 
     override fun onInterstitialAdVideoError(p0: AdError?) {
-        Core.pE("advertise_fail_api", "${p0?.code}_${p0?.desc}")
+        Start.pE("advertise_fail_api", "${p0?.code}_${p0?.desc}")
         call?.invoke()
         call = null
-        AdE.mAdC.loadAd()
+        AdMzki.mAdC.loadAd()
     }
 
     private fun postP(ad: TUAdInfo) {
-        Core.postAd(JSONObject().apply {
+        Start.postAd(JSONObject().apply {
             put("andesite", ad.publisherRevenue * 1000000)//ad_pre_ecpm
             put("abscond", ad.currency)//currency
             put("fungible", ad.networkName)//ad_network
@@ -139,7 +139,7 @@ class ToponAdImpl(val tag: String) : TUInterstitialListener {
         additionalParameters[AdRevenueScheme.PLACEMENT] = ad.placementId
         AppsFlyerLib.getInstance().logAdRevenue(adRevenueData, additionalParameters)
 
-        AdE.postEcpm(cpm)
+        AdMzki.postEcpm(cpm)
     }
 
 }

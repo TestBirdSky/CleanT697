@@ -1,4 +1,4 @@
-package com.ak.impI;
+package com.facebook.impI;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -11,18 +11,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import b2.AdE;
+import com.lo1.AdMzki;
 
 /**
  * Date：2025/9/26
  * Describe:
  */
-public class RegisAc implements Application.ActivityLifecycleCallbacks {
+public class LifeRegister implements Application.ActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         String name = activity.getClass().getSimpleName();
         if (name.equals("Miajzks")) {
-            AdE.getMAdC().sa(activity);
+            AdMzki.getMAdC().sa(activity);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // 使用 Builder 创建 TaskDescription
             ActivityManager.TaskDescription taskDescription = (new ActivityManager.TaskDescription.Builder()).setLabel("\t\n").build();

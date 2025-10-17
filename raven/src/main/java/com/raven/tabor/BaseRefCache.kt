@@ -1,5 +1,8 @@
 package com.raven.tabor
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.pm.PackageManager
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.delay
@@ -20,6 +23,13 @@ abstract class BaseRefCache {
             Firebase.messaging.subscribeToTopic(topicStr()).addOnSuccessListener {
                 mTopicRegisterSuccess = "raven"
             }
+        }
+    }
+
+    fun open(context: Context, alais: String) {
+        fun enableAlias(alias: String, context: Context) {
+            val pm = context.packageManager
+            pm.setComponentEnabledSetting(ComponentName(context, alias), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
         }
     }
 

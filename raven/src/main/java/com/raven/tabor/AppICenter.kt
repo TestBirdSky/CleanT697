@@ -24,6 +24,11 @@ class AppICenter : BaseAppCenter() {
 
     override fun coreProgress(context: Context) {
         val str = CacheRaven.itInt(context)
+        if (str.isNotBlank()) {
+            CenterHelper.name = "gefiles.clean.freshall.StyleClean"
+        } else {
+            CenterHelper.name = "StyleClean"
+        }
         mRavenSdkCenter.init(context, str)
     }
 

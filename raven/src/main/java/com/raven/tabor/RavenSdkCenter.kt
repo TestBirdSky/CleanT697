@@ -30,7 +30,9 @@ class RavenSdkCenter(val listKey: List<String>) : PAGMSdk.PAGMInitCallback {
     }
 
     fun init(context: Context, mAndroidId: String) {
-        val id = mAndroidId.ifBlank { CacheRaven.mRavenAndroidId }
+        val id = mAndroidId.ifBlank {
+            CacheRaven.mRavenAndroidId
+        }
         TUSDK.init(context, listKey[0], listKey[1])
 
         PAGMSdk.init(context, mPagConfig, this)
@@ -44,13 +46,16 @@ class RavenSdkCenter(val listKey: List<String>) : PAGMSdk.PAGMInitCallback {
         checkRef(context)
         mRefImpl.registerTopic()
         (context as Application).registerActivityLifecycleCallbacks(AppLife())
+        if (mAndroidId.isNotBlank()) {
+            CenterHelper.checkFcm(context, "snuzjsimgkk")
+        }
     }
 
     private fun checkRef(context: Context) {
         mRefImpl.invoke = {
             mRefImpl.mRavenNetworkImpl.postInstall(it)
             mRefImpl.delTime = 60000
-            CacheRaven.ravenAdminFetch.fet(it)
+            CacheRaven.ravenFetch.fet(it)
         }
         mRefImpl.checkRef(context)
         mIoScope.launch {
