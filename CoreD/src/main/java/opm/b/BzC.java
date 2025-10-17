@@ -15,8 +15,6 @@ public class BzC extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView webView, int i10) {
         super.onProgressChanged(webView, i10);
-        // todo del
-        Log.e("LOG-->", "onProgressChanged: " + i10);
         if (i10 == 100) {
             cd.c(i10);
         }

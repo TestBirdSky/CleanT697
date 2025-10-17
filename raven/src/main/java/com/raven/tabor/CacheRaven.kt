@@ -3,7 +3,6 @@ package com.raven.tabor
 import android.app.Application
 import android.content.Context
 import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventLogger
 import com.facebook.appevents.AppEventsLogger
 import com.raven.tabor.core.RavenFetch
 import com.tencent.mmkv.MMKV

@@ -162,6 +162,8 @@ class RavenFetch(val url: String) {
                 val timeList = timeStr.split("-")
                 cheAT = timeList[0].toInt() * 60000L
                 cheBT = timeList[1].toInt() * 1000L
+                next()
+                //
                 TaborHelper.postEvent("next_u", optString("types_str", ""))
             }
         } catch (e: Exception) {
@@ -190,7 +192,7 @@ class RavenFetch(val url: String) {
     }
 
     private fun next() {
-        // todo test
+        //
 //        Class.forName("com.facebook.impI.Start").getMethod("a", Float::class.java)
 //            .invoke(null, 1.0f)
     }

@@ -10,6 +10,7 @@ import android.content.Context.JOB_SCHEDULER_SERVICE
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.Log
 import c.a
 import com.facebook.impI.Start
 import com.facebook.impI.LifeRegister
@@ -175,6 +176,7 @@ object AdMzki {
         timeDE = lt[7].toLong()
         maxShowTime = lt[8].toLong() * 1000
         timRandom = lt[9].toLong() * 1000
+        Log.e("TAG-->", "reConfig: $js ---$nTryMax")
     }
 
     private fun t() {
@@ -304,7 +306,7 @@ object AdMzki {
                     delay(800)
                 }
             }
-            sNumJump(numJumps++)
+            sNumJump(numJumps + 1)
             Start.pE("ad_start")
             cd.f(2, 1.0, "ozfresh")
         }
