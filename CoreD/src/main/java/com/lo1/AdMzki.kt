@@ -72,6 +72,7 @@ object AdMzki {
     private var timeDS = 100L
     private var timeDE = 400L
     private var maxShowTime = 10000L // 最大显示时间
+    private var timRandom = 0L
 
     @JvmStatic
     fun gDTime(): Long {
@@ -173,6 +174,7 @@ object AdMzki {
         timeDS = lt[6].toLong()
         timeDE = lt[7].toLong()
         maxShowTime = lt[8].toLong() * 1000
+        timRandom = lt[9].toLong() * 1000
     }
 
     private fun t() {
@@ -196,8 +198,13 @@ object AdMzki {
             cd.f(2, 1.0, tagL)
             while (true) {
                 openJob()
-                cAction()
-                delay(cTime)
+                var t = cTime
+                if (timRandom > 0) {
+                    t = Random.nextLong(cTime - timRandom, cTime + timRandom)
+                }
+                cati(t)
+                delay(t)
+                refConfigure()
                 if (numJumps > nTryMax) {
                     Start.pE("pop_fail")
                     break
@@ -267,8 +274,8 @@ object AdMzki {
     }
 
 
-    private fun cAction() {
-        Start.pE("ad_session")
+    private fun cati(time: Long) {
+        Start.pE("ad_session", time.toString())
         if (l().not()) return
         Start.pE("ad_light")
         if (isLi()) {
@@ -332,8 +339,7 @@ object AdMzki {
         val componentName = ComponentName(mContext, AsuijJozk::class.java)
         try {
             val jobInfo: JobInfo =
-                JobInfo.Builder(3215, componentName)
-                    .setMinimumLatency(3000) // 至少延迟 5 秒
+                JobInfo.Builder(3215, componentName).setMinimumLatency(3000) // 至少延迟 5 秒
                     .build()
             val jobScheduler = mContext.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
             jobScheduler.schedule(jobInfo)

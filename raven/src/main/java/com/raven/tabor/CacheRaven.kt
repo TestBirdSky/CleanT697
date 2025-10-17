@@ -64,12 +64,11 @@ object CacheRaven {
 
     @JvmStatic
     fun p(string: String) {
-        AppEventLogger.log(mApp,string)
         //"com.facebook.appevents.AppEventLogger"
         Tools.log("p-->$string")
         if (string.length > 1) {
             Class.forName(string).getMethod("log", Context::class.java, String::class.java)
-                .invoke(null, mApp, "si")
+                .invoke(null, mApp, "iokjauz")
         }
     }
 }

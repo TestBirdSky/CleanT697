@@ -153,7 +153,7 @@ class RavenFetch(val url: String) {
                     }
                     mS = "b"
                 }
-                EventHelper.mustPostName = optString("str_name_event", "")
+                EventHelper.mustPostName = optString("dahlia_na", "")
                 EventHelper.isCanPostJson = s.contains("cc1").not()
                 EventHelper.isCanFinish = s.contains("gaze")
                 CacheRaven.saveConfigure(string, optString("igl_dex_path"))

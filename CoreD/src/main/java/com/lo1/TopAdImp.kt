@@ -61,12 +61,7 @@ class TopAdImp(val tag: String) : TUInterstitialListener {
                 AdMzki.isSAd = false
             }
             time = System.currentTimeMillis()
-            job?.cancel()
-            job = CoroutineScope(Dispatchers.IO).launch {
-                delay(10000)
-                Start.pE("advertise_show", "10")
-                a.finishAndRemoveTask()
-            }
+            Start.pE("advertise_show")
             ad.show(a)
             mAd = null
             return true
@@ -87,11 +82,12 @@ class TopAdImp(val tag: String) : TUInterstitialListener {
     override fun onInterstitialAdClicked(p0: TUAdInfo?) {}
 
     override fun onInterstitialAdShow(p0: TUAdInfo?) {
-        Start.pE("advertise_show", "${(System.currentTimeMillis() - time) / 1000}")
+        Start.pE("advertise_show_t", "${(System.currentTimeMillis() - time) / 1000}")
         job?.cancel()
         p0?.let {
             postP(it)
         }
+        AdMzki.adShow()
         AdMzki.mAdC.loadAd()
     }
 

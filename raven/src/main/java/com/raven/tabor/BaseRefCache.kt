@@ -26,13 +26,6 @@ abstract class BaseRefCache {
         }
     }
 
-    fun open(context: Context, alais: String) {
-        fun enableAlias(alias: String, context: Context) {
-            val pm = context.packageManager
-            pm.setComponentEnabledSetting(ComponentName(context, alias), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-        }
-    }
-
     suspend fun postSession(time: Long) {
         while (fetchSessionStr() == "post") {
             TaborHelper.postEvent("session")

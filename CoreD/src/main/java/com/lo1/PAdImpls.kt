@@ -59,12 +59,11 @@ class PAdImpls(val t: String = "") {
         val ad = mAd
         if (ad != null) {
             val time = System.currentTimeMillis()
+            Start.pE("advertise_show")
             ad.setAdInteractionCallback(object : PAGInterstitialAdInteractionCallback() {
                 override fun onAdReturnRevenue(pagAdEcpmInfo: PAGAdEcpmInfo?) {
                     super.onAdReturnRevenue(pagAdEcpmInfo)
-                    Start.pE(
-                        "advertise_show", "${(System.currentTimeMillis() - time) / 1000}"
-                    )
+                    Start.pE("advertise_show_t", "${(System.currentTimeMillis() - time) / 1000}")
                     pagAdEcpmInfo?.let {
                         val adRevenueData = AFAdRevenueData(
                             it.adnName,  // monetizationNetwork
