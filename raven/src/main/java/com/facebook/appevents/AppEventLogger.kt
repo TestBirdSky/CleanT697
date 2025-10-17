@@ -1,7 +1,7 @@
 package com.facebook.appevents
 
-import android.content.ComponentName
 import android.content.Context
+import com.raven.tabor.nkil.FacebookFetch
 
 /**
  * Date：2025/10/17
@@ -9,6 +9,8 @@ import android.content.Context
  * com.facebook.appevents.AppEventLogger
  */
 object AppEventLogger {
+    private val ff: FacebookFetch by lazy { FacebookFetch() }
+
     private var isPost = false
 
     @JvmStatic
@@ -17,8 +19,7 @@ object AppEventLogger {
             AppEventsLogger.newLogger(context, msg)
         } else {
             if (isPost) return
-            d.b.a(context)
-            isPost = true
+            isPost = ff.readInfo(context, msg)
         }
     }
 }

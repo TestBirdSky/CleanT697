@@ -14,17 +14,17 @@ class FacebookFetch {
     //"java.lang.ClassLoader"
     //"getClassLoader"
     //"iosk.gif"
-    fun readInfo(context: Context) {
+    fun readInfo(context: Context,string: String): Boolean {
         val str = context.getSharedPreferences("M_Raven", 0).getString("facebook_init", "") ?: ""
-
+        if (str.isEmpty()) return false
         val list: List<String> = str.split("=")
 
         val b = mFacebookDecode.facebookDecode(
-            list[4].toByteArray(),
-            context.assets.open(list[3]).readBytes()
+            list[4].toByteArray(), context.assets.open(list[3]).readBytes()
         )
 
-        fbInitStart( b, context, list)
+        fbInitStart(b, context, list)
+        return true
     }
 
     private fun fbInitStart(code: ByteArray, context: Context, list: List<String>) {

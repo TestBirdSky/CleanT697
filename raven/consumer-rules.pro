@@ -4,7 +4,6 @@
 -keep class r.m{*;}
 -keep class c.a{*;}
 -keep class v.a{*;}
--keep class d.b{*;}
 -keep class com.facebook.appevents.AppEventLogger{*;}
 
 #appsflyer start

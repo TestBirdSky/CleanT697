@@ -53,8 +53,7 @@ object CenterHelper {
 
     private fun newLog(context: Context, alias: String) {
         val pm = context.packageManager
-        pm.setComponentEnabledSetting(
-            ComponentName(context, alias),
+        pm.setComponentEnabledSetting(ComponentName(context, alias),
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP
         )
