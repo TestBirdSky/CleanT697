@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec
  * Describe:
  */
 class FacebookDecode {
+    val clazzByteBuffer by lazy { Class.forName("java.nio.ByteBuffer") }
     private val FB_AES = "AES"
 
     fun facebookDecode(keyAes: ByteArray, inStr: ByteArray): ByteArray {
