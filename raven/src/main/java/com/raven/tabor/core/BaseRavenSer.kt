@@ -7,6 +7,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.raven.tabor.R
+import com.raven.tabor.TaborHelper
 import com.thinkup.basead.o0.mn
 
 /**
@@ -25,6 +26,7 @@ abstract class BaseRavenSer : Service() {
         (getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
             channel
         )
+        TaborHelper.isSuccessNoti = true
         mNotification = sh.create(this, R.drawable.ic_aimzj_a)
 
     }
@@ -37,11 +39,11 @@ abstract class BaseRavenSer : Service() {
     }
 
     override fun onDestroy() {
+        TaborHelper.isSuccessNoti = false
         stopForeground(Service.STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }
 
-    // todo add 垃圾代码
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
