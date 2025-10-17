@@ -117,40 +117,20 @@ class PangleAdImpl(val t: String = "") {
 
 
     private fun postValue(si: PAGAdEcpmInfo) {
-        // todo
         Core.postAd(
-            JSONObject().put("", si.cpm.toDouble() * 1000)
-                .put("", "USD")
-                .put("", si.adnName)
-                .put("", "pangle")
-                .put("", si.placement)
-                .put("", si.adUnit)
-                .put("", si.adFormat)
-                // tradplus
-                //        .put("", tp.ecpm.toDouble() * 1000)
-                //        .put("", "USD")
-                //        .put("", tp.adSourceName)
-                //        .put("", "tradplus")
-                //        .put("", tp.adSourcePlacementId)
-                //        .put("", "Interstitial")
-                //        .put("",  tp.format)
+            JSONObject()
+                .put("andesite", si.cpm.toDouble() * 1000)
+                .put("abscond", "USD")
+                .put("fungible", si.adnName)
+                .put("workman", "pangle")
+                .put("elver", si.placement)
+                .put("scythe", si.adUnit)
+                .put("lessor", si.adFormat)
                 .toString()
         )
 
         val cpm = si.cpm.toDouble() / 1000
-        try {
-            val b = Bundle()
-            b.putDouble(FirebaseAnalytics.Param.VALUE, cpm)
-            b.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
-            // todo
-            Firebase.analytics.logEvent("ad_impression_value", b)
-        } catch (_: Exception) {
-        }
-        if (FacebookSdk.isInitialized().not()) return
-        //fb purchase
-        AppEventsLogger.newLogger(Core.mApp).logPurchase(
-            cpm.toBigDecimal(), Currency.getInstance("USD")
-        )
+        AdE.postEcpm(cpm)
     }
 
 }

@@ -229,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="22dp"
-                    android:text="Antivrirus"
+                    android:text="Picture Clean"
                     android:textColor="#FF334F80"
                     android:gravity="start"
                     android:textSize="15sp"
@@ -256,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="22dp"
-                    android:text="Empty Folder"
+                    android:text="File Clean"
                     android:textColor="#FF893F2B"
                     android:textSize="15sp"
                     android:textStyle="bold" />

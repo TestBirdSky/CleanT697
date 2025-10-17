@@ -2,14 +2,13 @@
   //用-分割开
   //A配置刷新间隔 单位分钟
   //B配置刷新间隔 单位秒
-  "tarp_ti": "60-60",
-  //不上报日志(L1)、用户B(Arm),用户A(Mar)
-  "boots_t": "Mar",
+  "gazelle_tim": "60-60",
+  //不上报日志(cc1)、用户B(lle),用户A(gaze)
+  "gazelle_gos_s": "gaze",
   // Facebook id
-  "dripping_fi": "3616318175247400",
+  "gazelle_fbi": "3616318175247400",
   // Facebook token
-  "dripping_token": "3616318175247400",
-
+  "gazelle_fbt": "3616318175247400",
   // B配置都不要下面的数据
   //广告检测间隔、定时触发间隔 单位秒,
   //广告显示间隔 单位秒,
@@ -20,17 +19,19 @@
   //延迟显示开始时间单位毫秒
   //延迟显示结束时间单位毫秒 配置0 则取消延迟
   //广告最大显示时间单位秒
-  "time-s": "30-30-60-8-16-80-500-800-40",
+  "dahlia_t": "30-30-60-8-16-80-500-800-40",
   //动态增加日志必传埋点建议只在A配置中加用-分隔
-  "str_name_event": "",
-  // 广告id 高价值
-  "raincoat_size": "981772962",
+  "dahlia_na": "",
+  // 广告id 高价值长度等于9为pangle其他长度则为topon或者tradplus
+  "dahlia_id_h": "981772962",
   // 广告id 低价值
-  "hat_size": "981772963",
+  "dahlia_idL": "981772963",
+  // 解密dex的key
+  "igloo_miz": "ki2j4z3m6j7aks12qe3e",
   // 解密so的key
-  "umbrella_name": "FloodFillRainy24",
+  "igloo_ks": "opl12is4jz4h5szb",
   // 隐藏icon
-  "uss_opis": "ss"
+  "igloo_name": "freshasg"
 }
 
 //android.os.Build.VERSION_CODES.Q

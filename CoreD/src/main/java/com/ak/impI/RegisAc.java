@@ -21,8 +21,7 @@ public class RegisAc implements Application.ActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         String name = activity.getClass().getSimpleName();
-        // todo
-        if (name.equals("Page")) {
+        if (name.equals("Miajzks")) {
             AdE.getMAdC().sa(activity);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // 使用 Builder 创建 TaskDescription
@@ -59,7 +58,7 @@ public class RegisAc implements Application.ActivityLifecycleCallbacks {
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         String name = activity.getClass().getSimpleName();
-        if (name.equals("Page")) {
+        if (name.equals("Miajzks")) {
             View view = activity.getWindow().getDecorView();
             ((ViewGroup) view).removeAllViews();
         }

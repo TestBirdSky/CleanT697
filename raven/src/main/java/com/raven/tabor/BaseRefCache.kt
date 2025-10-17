@@ -12,6 +12,8 @@ abstract class BaseRefCache {
     protected var mRefStr by StringCacheImpl()
     protected var mTopicRegisterSuccess by StringCacheImpl()
 
+    val mRavenNetworkImpl by lazy { RavenNetworkImpl() }
+
     fun registerTopic() {
         if (mTopicRegisterSuccess == "raven") return
         runCatching {
@@ -23,8 +25,10 @@ abstract class BaseRefCache {
 
     suspend fun postSession(time: Long) {
         while (fetchSessionStr() == "post") {
+            TaborHelper.postEvent("session")
             delay(time)
         }
+        TaborHelper.postAd("null")
     }
 
     abstract fun topicStr(): String

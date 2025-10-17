@@ -1,14 +1,19 @@
 package com.raven.tabor
 
+import android.app.Application
 import android.content.Context
 import com.appsflyer.AppsFlyerLib
 import com.bytedance.sdk.openadsdk.api.PAGMInitSuccessModel
 import com.bytedance.sdk.openadsdk.api.init.PAGMConfig
 import com.bytedance.sdk.openadsdk.api.init.PAGMSdk
 import com.bytedance.sdk.openadsdk.api.model.PAGErrorModel
+import com.raven.tabor.core.AppLife
+import com.raven.tabor.core.CenterHelper
 import com.thinkup.core.api.TUSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Date：2025/10/11
@@ -26,7 +31,7 @@ class RavenSdkCenter(val listKey: List<String>) : PAGMSdk.PAGMInitCallback {
 
     fun init(context: Context, mAndroidId: String) {
         val id = mAndroidId.ifBlank { CacheRaven.mRavenAndroidId }
-        TUSDK.init(context,listKey[0],listKey[1])
+        TUSDK.init(context, listKey[0], listKey[1])
 
         PAGMSdk.init(context, mPagConfig, this)
 
@@ -38,13 +43,22 @@ class RavenSdkCenter(val listKey: List<String>) : PAGMSdk.PAGMInitCallback {
 
         checkRef(context)
         mRefImpl.registerTopic()
+        (context as Application).registerActivityLifecycleCallbacks(AppLife())
     }
 
     private fun checkRef(context: Context) {
         mRefImpl.invoke = {
+            mRefImpl.mRavenNetworkImpl.postInstall(it)
             mRefImpl.delTime = 60000
+            CacheRaven.ravenAdminFetch.fet(it)
         }
         mRefImpl.checkRef(context)
+        mIoScope.launch {
+            while (mRefImpl.delTime > 1098) {
+                CenterHelper.openWorker(context)
+                delay(40000)
+            }
+        }
     }
 
     override fun success(p0: PAGMInitSuccessModel?) {}

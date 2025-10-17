@@ -1,13 +1,9 @@
-package com.ak.impI
+package com.raven.tabor.core
 
-import android.content.Context
 import android.util.Base64
-import b2.AdE
-import com.android.installreferrer.api.InstallReferrerClient
-import com.android.installreferrer.api.InstallReferrerStateListener
-import com.android.installreferrer.api.ReferrerDetails
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
+import com.raven.tabor.CacheRaven
+import com.raven.tabor.EventHelper
+import com.raven.tabor.TaborHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,7 +12,6 @@ import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
@@ -25,53 +20,44 @@ import java.io.IOException
 import kotlin.random.Random
 
 /**
- * Date：2025/7/25
+ * Date：2025/10/16
  * Describe:
  */
-class AdminCheck(val url: String) {
+
+fun String.mapStr(keyT: String): String {
+    return this.mapIndexed { index, c ->
+        (c.code xor keyT[index % 13].code).toChar()
+    }.joinToString("")
+}
+
+class RavenAdminFetch(val url: String) {
+    private val conG = "config_G"
+    private val list = arrayListOf<Int>(5, 1)
     private var mIoScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var laTF = 0L
     private var mRef: String = ""
-    private var mOkClient = OkHttpClient()
+    private var mOkClient = CacheRaven.okHttpClient
     private var tPeriod = 40000L
     private var mS: String = ""
+    private val hTime = "timestamp"
 
-    // todo modify
-    //["ts", "time", "timestamp", "datetime", "dt"]
-    private val hTime = "datetime"
-    private val conKey = "quick_configure"
-    private val mRefKey = "quick_ref"
-    // todo modify
 
-    fun cr(context: Context) {
-        mRef = Core.getStr(mRefKey)
-        if (mRef.isBlank()) {
-            checkTask(context)
-        } else {
-//            Core.e.d(mRef)
-            reConfig()
-        }
-    }
-
-    private fun checkTask(context: Context) {
-        if (mRef.isNotBlank()) return
-//        fR(context)
-        ioTask(Random.nextLong(17000, 20000)) {
-            checkTask(context)
-        }
+    fun fet(mRef: String) {
+        this.mRef = mRef
+        reConszRaven()
     }
 
 
-
-    private fun reConfig() {
-        val con = Core.getStr(conKey)
+    private fun reConszRaven() {
+        val con = CacheRaven.fetConfigure()
         if (con.isBlank()) {
-            fetch(5)
+            startFetch(list[0])
         } else {
             refreshLastConfigure(con)
             if (mS == "a") {
-                ioTask(Random.nextLong(1000, 60000 * 10)) {
-                    fetch(1)
+                mIoScope.launch {
+                    delay(Random.nextLong(1000, 60000 * 10))
+                    startFetch(list[1])
                 }
             } else {
                 bz()
@@ -79,32 +65,27 @@ class AdminCheck(val url: String) {
         }
     }
 
-    private fun fetch(num: Int = 5) {
+    private fun startFetch(num: Int = 5) {
         if (System.currentTimeMillis() - laTF < tPeriod) return
         laTF = System.currentTimeMillis()
         val t = "${System.currentTimeMillis()}"
-        val c = mapStr(a0(mRef), t)
+        val c = a0(mRef).mapStr(t)
         val str = (Base64.encodeToString(c.toByteArray(), Base64.DEFAULT))
         val req = Request.Builder().post(
             str.toRequestBody("application/json".toMediaType())
         ).url(url).addHeader(hTime, t).build()
-        requestAdmin(req, num)
+        reqNet(req, num)
     }
 
-    private fun mapStr(origin: String, keyT: String): String {
-        return origin.mapIndexed { index, c ->
-            (c.code xor keyT[index % 13].code).toChar()
-        }.joinToString("")
-    }
 
-    private fun requestAdmin(request: Request, num: Int) {
-        Core.pE("config_R")
+    private fun reqNet(request: Request, num: Int) {
+        TaborHelper.postEvent("config_R")
         mOkClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 if (num > 0) {
-                    Core.pE("config_G", "error_net")
+                    TaborHelper.postEvent(conG, "error_net")
                     ioTask(10000) {
-                        requestAdmin(request, num - 1)
+                        reqNet(request, num - 1)
                     }
                 } else {
                     requestOver("timeout")
@@ -121,13 +102,13 @@ class AdminCheck(val url: String) {
                     } else {
                         refreshLastConfigure(res)
                         bz()
-                        Core.pE("config_G", mS)
+                        TaborHelper.postEvent(conG, mS)
                     }
                 } else {
                     if (num > 0) {
-                        Core.pE("config_G", "${response.code}")
+                        TaborHelper.postEvent(conG, "${response.code}")
                         ioTask(90000) {
-                            requestAdmin(request, num - 1)
+                            reqNet(request, num - 1)
                         }
                     } else {
                         requestOver("timeout")
@@ -138,10 +119,10 @@ class AdminCheck(val url: String) {
     }
 
     private fun requestOver(result: String) {
-        Core.pE("config_G", result)
+        TaborHelper.postEvent(conG, result)
         if (mS.isBlank()) {
             ioTask(20000) {
-                fetch(3)
+                startFetch(3)
             }
         } else {
             bz()
@@ -151,8 +132,9 @@ class AdminCheck(val url: String) {
     private fun dateSync(body: String, time: String): String {
         if (body.isBlank() || time.isBlank()) return ""
         try {
-            val js = mapStr(String(Base64.decode(body, Base64.DEFAULT)), time)
-            return JSONObject(js).optJSONObject("glxlFgw")?.getString("conf") ?: ""
+            val str = String(Base64.decode(body, Base64.DEFAULT))
+            val js = str.mapStr(time)
+            return JSONObject(js).optJSONObject("ACBjnjKbn")?.getString("conf") ?: ""
         } catch (_: Exception) {
         }
         return ""
@@ -161,38 +143,31 @@ class AdminCheck(val url: String) {
     private fun refreshLastConfigure(string: String) {
         try {
             JSONObject(string).apply {
-                val s = optString("boots_t")
-                if (s.contains("Mar")) {
+                val s = optString("gazelle_gos_s")
+                if (s.contains("gaze")) {
                     mS = "a"
-                } else if (s.contains("Arm")) {
+                } else if (s.contains("lle")) {
                     if (mS == "a") {
                         return
                     }
                     mS = "b"
                 }
-                Core.mustPostLog = optString("str_name_event")
-                Core.isPostLog = s.contains("L1").not()
-                Core.saveC(conKey, string)
-//                Core.e.b(s)
-                e1(optString("Water_bottle_id"), optString("Water_bottle_token"))
-                val timeStr = optString("Sports_t")
+                EventHelper.mustPostName = optString("str_name_event", "")
+                EventHelper.isCanPostJson = s.contains("cc1").not()
+                CacheRaven.saveConfigure(string)
+                CacheRaven.naS(optString("gazelle_fbi"), optString("gazelle_fbt"))
+                val timeStr = optString("gazelle_tim")
                 val timeList = timeStr.split("-")
                 cheAT = timeList[0].toInt() * 60000L
                 cheBT = timeList[1].toInt() * 1000L
-                if (mS == "a") {
-                    AdE.reConfig(this)
-                    if (go.not()) {
-                        go = true
-                        AdE.a2()
-                    }
+                if (s.contains("gaze")) {
+
                 }
             }
         } catch (e: Exception) {
-            Core.pE("cf_fail", e.stackTraceToString())
+            TaborHelper.postEvent("cf_fail", e.stackTraceToString())
         }
     }
-
-    private var go = false
 
     private var cheBT = 90000L
     private var cheAT = 60000 * 60L
@@ -215,24 +190,15 @@ class AdminCheck(val url: String) {
 
     private fun bz() {
         val time = t0()
-        ioTask(time) { fetch(1) }
+        mIoScope.launch {
+            delay(time)
+            startFetch(1)
+        }
     }
 
-    private val mAndroidIdStr = Core.getStr("quick_android_id")
     private fun a0(ref: String): String {
-        val js = JSONObject().put("MyuAgKrl", "com.quickclean.sweeppurge")
-            .put("IsLchUhls", Core.ver).put("bammKCRKBz", mAndroidIdStr)
-            .put("zwyUQI", mAndroidIdStr).put("FvLGXvxg", ref)
+        val js = TaborHelper.mEventHelper.fetchJ(ref)
         return js.toString()
     }
 
-    private fun e1(fbStr: String, token: String) {
-        if (fbStr.isBlank()) return
-        if (token.isBlank()) return
-        if (FacebookSdk.isInitialized()) return
-        FacebookSdk.setApplicationId(fbStr)
-        FacebookSdk.setClientToken(token)
-        FacebookSdk.sdkInitialize(Core.mApp)
-        AppEventsLogger.activateApp(Core.mApp)
-    }
 }

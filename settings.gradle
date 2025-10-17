@@ -38,7 +38,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MobPhone376"
+rootProject.name = "Clean Care"
 include ':app'
 include ':CoreD'
 include ':raven'

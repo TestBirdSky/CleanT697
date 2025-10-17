@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.webkit.WebView
+import com.raven.tabor.core.CenterHelper
 
 /**
  * Date：2025/10/11
@@ -28,6 +29,7 @@ class AppICenter : BaseAppCenter() {
 
     // app 入口
     fun init(context: Context) {
+        c.a.d = context as Application?
         val name = checkProgress(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && name.isNotBlank()) {
             runCatching {

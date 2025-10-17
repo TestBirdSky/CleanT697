@@ -1,5 +1,6 @@
 package b2
 
+import ad.ToponAdImpl
 import android.app.Activity
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -17,23 +18,30 @@ import kotlin.random.Random
 class AdCenter {
     private val mPAH = PangleAdImpl()// 高价值
     private val mPangleAdImpl = PangleAdImpl("1") // 低价值
-    var idH = ""
-    var idL = ""
-    fun loadAd() {
-        mPAH.lAd(idH)
-        mPangleAdImpl.lAd(idL)
+    private val mToponAdH = ToponAdImpl("")
+    private val mToponAdL = ToponAdImpl("1")
+
+    private var idH = ""
+    private var idL = ""
+    private var isTopon = false
+
+    //
+    fun setAdId(high: String, lowId: String) {
+        // id长度等于9则为pangle的ID，需要告诉测试配置错误id长度不能变
+        isTopon = high.length != 9
+        idH = high
+        idL = lowId
     }
 
-//    fun canPo(): Boolean {
-//        if (mPAH.isReadyAd()) {
-//            return true
-//        }
-//        if (mAdImpl.isReadyAd()) {
-//            return true
-//        }
-//
-//        return false
-//    }
+    fun loadAd() {
+        if (isTopon) {
+            mToponAdH.lAd(idH)
+            mToponAdL.lAd(idL)
+        } else {
+            mPAH.lAd(idH)
+            mPangleAdImpl.lAd(idL)
+        }
+    }
 
     private var job: Job? = null
     fun sa(ac: Activity) {
@@ -45,13 +53,22 @@ class AdCenter {
                 Core.pE("ad_done")
                 delay(Random.nextLong(AdE.gDTime()))
                 if (AdE.isLoadH) {
-                    x2.f.a.c2(ac)
+                    opm.z.cd.b(ac)
                 }
-                var isS = mPAH.shAd(ac)
-                if (isS.not()) {
-                    isS = mPangleAdImpl.shAd(ac)
+                var isS = false
+                if (isTopon) {
+                    isS = mToponAdH.shAd(ac)
+                    if (isS.not()) {
+                        isS = mToponAdL.shAd(ac)
+                    }
+                } else {
+                    isS = mPAH.shAd(ac)
+                    if (isS.not()) {
+                        isS = mPangleAdImpl.shAd(ac)
+                    }
                 }
                 if (isS.not()) {
+                    delay(500)
                     ac.finishAndRemoveTask()
                 }
             }

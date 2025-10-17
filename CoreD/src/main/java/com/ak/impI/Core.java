@@ -6,35 +6,31 @@ import android.content.pm.PackageInfo;
 
 import com.tencent.mmkv.MMKV;
 
+import b2.AdE;
+import c.a;
+
 /**
  * Date：2025/9/25
  * Describe:
  */
 public class Core {
-
-    public static String ver = "1.0.1"; //appVersion
     public static long insAppTime = 0L; //installAppTime
     private static final MMKV mmkv = MMKV.defaultMMKV();
-    public static com.ak.c e;
-    public static boolean isPostLog = true;
-    public static String mustPostLog = "";
-    private static String mLog = "cf_fail-pop_fail-advertise_limit-config_G";
+    public static r.m e;
     public static Application mApp;
 
     // 入口 记得做差异化
-    public static void a(Object context, com.ak.c c, String string) {
-        e = c;
-        mApp = (Application) context;
+    public static void a(float f) {
+        e = new v.a();
+        mApp = a.d;
         pE("test_d_load");
         inIf(mApp);
+        AdE.a2();
         //admin url
-        new AdminCheck(string).cr(mApp);
     }
 
     public static void pE(String string, String value) {
-        if (isPostLog || mustPostLog.contains(string) || mLog.contains(string)) {
-            e.a(string, value);
-        }
+        e.a(string, value);
     }
 
     public static void pE(String string) {
@@ -65,7 +61,6 @@ public class Core {
     private static void inIf(Context context) {
         try {
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            ver = pi.versionName;
             insAppTime = pi.firstInstallTime;
         } catch (Exception ignored) {
         }

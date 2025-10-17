@@ -1,18 +1,18 @@
-package x2;
+package opm.b;
 
 
 import android.os.Handler;
 import android.os.Message;
 
+import opm.z.cd;
 
 /**
  * Date：2025/7/28
  * Describe:
  */
-// todo
-public class MHandler extends Handler {
+public class FrH extends Handler {
     @Override
     public void handleMessage(Message message) {
-        x2.f.a.c1(message.what);
+        cd.c(message.what);
     }
 }

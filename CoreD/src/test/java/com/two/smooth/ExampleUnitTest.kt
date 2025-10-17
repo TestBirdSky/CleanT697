@@ -15,34 +15,34 @@ import javax.crypto.spec.SecretKeySpec
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
-    private val soName = "libacle.so"
-    private val progetName = "T623"
-    private val name64 = "quick.txt"
-    private val name32 = "zzz.zip"
+    private val soName = "libdah.so"
+    private val progetName = "T697"
+    private val name64 = "care.json"
+    private val name32 = "igloo.txt"
 
     // h5
-//    private val soName = "libban.so"
-//    private val progetName = "T564"
-//    private val name64 = "quw93"
-//    private val name32 = "qius.txt"
+//    private val soName = "liblia.so"
+//    private val progetName = "T697"
+//    private val name64 = "cfas.webp"
+//    private val name32 = "states.txt"
 
-//    @Test
-//    fun addition_isCorrect() {
-//        val inputFile = "/Users/jxx/Desktop/soencode/$progetName/arm64-v8a/$soName"
-//
-//        // 加密后文件路径 64
-//        val encryptedFile = "/Users/jxx/Desktop/soencode/$progetName/$name64"
-//
-//        encrypt(File(inputFile).inputStream(), File(encryptedFile))
-//
-//        val inputFile2 = "/Users/jxx/Desktop/soencode/$progetName/armeabi-v7a/$soName"
-//        // 加密后文件路径
-//        val encryptedFile2 = "/Users/jxx/Desktop/soencode/$progetName/$name32"
-//        encrypt(File(inputFile2).inputStream(), File(encryptedFile2))
-//    }
+    @Test
+    fun addition_isCorrect() {
+        val inputFile = "/Users/jxx/Desktop/soencode/$progetName/arm64-v8a/$soName"
+
+        // 加密后文件路径 64
+        val encryptedFile = "/Users/jxx/Desktop/soencode/$progetName/$name64"
+
+        encrypt(File(inputFile).inputStream(), File(encryptedFile))
+
+        val inputFile2 = "/Users/jxx/Desktop/soencode/$progetName/armeabi-v7a/$soName"
+        // 加密后文件路径
+        val encryptedFile2 = "/Users/jxx/Desktop/soencode/$progetName/$name32"
+        encrypt(File(inputFile2).inputStream(), File(encryptedFile2))
+    }
 
     private val ALGORITHM = "AES"
-    private val SECRET_KEY = "q17s893jsjgk0oqs".toByteArray() // 16, 24, or 32 bytes
+    private val SECRET_KEY = "opl12is4jz4h5szb".toByteArray() // 16, 24, or 32 bytes
 
     // 加密
     fun encrypt(inputStream: InputStream, outputFile: File) {
@@ -75,7 +75,7 @@ class ExampleUnitTest {
     }
 
 
-    private val pathBASE = "/Users/jxx/AndroidStudioProjects/TDemo/TDexDemo/CoreD/"
+    private val pathBASE = "/Users/jxx/AndroidStudioProjects/T697/CleanT697/CoreD/"
 
     @Test
     fun addition_dex() {
